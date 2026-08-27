@@ -14,6 +14,6 @@ DEVICES = [
     {"name": "Pc Luis", "host": "192.168.100.35"},
     {"name": "Roteador Principal", "host": "192.168.100.1"},
     {"name": "Roteador Externo", "host": "192.168.100.15"},
-    {"name": "Tv Luis", "host": "192.168.100.9"},
+    {"name": "Tv Quarto Luis", "host": "192.168.100.9"},
     {"name": "Câmera Garagem", "host": "192.168.100.40"},
 ]
