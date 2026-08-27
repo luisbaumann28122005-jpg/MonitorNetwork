@@ -11,7 +11,7 @@ CHECK_INTERVAL = 5
 
 # --- LISTA DE DISPOSITIVOS PARA MONITORAR ---
 DEVICES = [
-    {"name": "Pc Luis", "host": "192.168.100.37"},
+    {"name": "Pc Luis", "host": "192.168.100.35"},
     {"name": "Roteador Principal", "host": "192.168.100.1"},
     {"name": "Roteador Externo", "host": "192.168.100.15"},
     {"name": "Tv Luis", "host": "192.168.100.9"},
