@@ -1,0 +1,80 @@
+ITO-001: Implantação do Pi-hole em Container Docker
+Objetivo: Registrar o procedimento de instalação, portas utilizadas e ajustes de permissão do Pi-hole no Raspberry Pi para bloqueio de anúncios e rastreadores via DNS.
+
+Ambiente: Raspberry Pi OS
+
+IP do Servidor: 192.168.100.41
+
+Painel Web: [http://192.168.100.41/admin](http://192.168.100.41/admin)
+
+1. Estrutura de Arquivos e Deploy
+A implantação foi realizada via Docker Compose no diretório do usuário local:
+
+Bash
+mkdir ~/pihole-docker && cd ~/pihole-docker
+Arquivo docker-compose.yml:
+
+YAML
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80/tcp"
+    environment:
+      TZ: 'America/Sao_Paulo'
+      FTLCONF_LOCAL_IPV4: '192.168.100.41'
+    volumes:
+      - './etc-pihole:/etc/pihole'
+      - './etc-dnsmasq.d:/etc/dnsmasq.d'
+    restart: unless-stopped
+Comando de inicialização: docker compose up -d
+
+2. Configurações de Segurança e Acesso
+Definição de Senha Administrativa:
+
+O acesso ao painel web foi parametrizado usando a CLI nativa da imagem (Pi-hole v6+):
+
+Bash
+docker exec -it pihole pihole setpassword admin
+Permissão de Escuta na Rede Local (Interface Listening Behavior):
+
+Para permitir que o container responda às requisições da sub-rede local vindas da interface principal do Raspberry Pi, foi habilitada a instrução de escuta ampla via painel web:
+
+Caminho: Settings > DNS > Potentially dangerous options
+
+Parâmetro: Permit all origins
+
+Ação: Save & Apply
+
+Regras de Firewall (UFW):
+
+Liberação explícita do tráfego DNS na máquina hospedeira:
+
+Bash
+sudo ufw allow 53/tcp
+sudo ufw allow 53/udp
+sudo ufw reload
+3. Configuração nos Clientes
+Como a rede não possui acesso administrativo ao roteador principal para alterar as opções de DHCP globalmente:
+
+Configuração Manual de DNS no Cliente:
+
+Servidor DNS IPv4: 192.168.100.41
+
+Desativação de IPv6: Desativado nas propriedades do adaptador do cliente para evitar bypass.
+
+Desativação de DoH (DNS sobre HTTPS): Desativado no navegador cliente (Chrome/Edge/Brave) para forçar as requisições pela porta 53 local.
+
+4. Validação e Testes
+Teste de Resolução de Nomes (Terminal do Cliente):
+
+DOS
+nslookup google.com 192.168.100.41
+Teste de Bloqueio de Anúncio:
+
+DOS
+nslookup doubleclick.net
+(Resultado esperado: retorno de IP nulo 0.0.0.0)

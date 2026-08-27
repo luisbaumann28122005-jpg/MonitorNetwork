@@ -1,0 +1,59 @@
+Excelente! Se você já tem a pasta do projeto com os mesmos arquivos no seu PC, não precisa clonar tudo de novo. Vamos apenas conectar essa sua pasta local ao GitHub.
+
+Aqui está o passo a passo atualizado para a sua ITO:
+
+📋 Instrução Técnica de Operação (ITO)
+Objetivo: Padronizar o acesso SSH ao Raspberry Pi e definir o fluxo de desenvolvimento no VS Code sincronizado via GitHub.
+
+1. Acesso Remoto via SSH (PC ➔ Raspberry Pi)
+Abra o Prompt de Comando (CMD) ou PowerShell no seu PC.
+
+Execute o comando de conexão:
+
+DOS
+ssh admin@192.168.100.41
+Digite a senha do usuário admin e pressione Enter (os caracteres não aparecem na tela).
+
+2. Conectar sua Pasta Existente do VS Code ao GitHub (Apenas 1ª vez)
+Se a pasta que você já tem no PC ainda não está conectada ao GitHub:
+
+Abra a pasta do seu projeto no VS Code.
+
+Abra o terminal integrado do VS Code (Ctrl + ' ou Ctrl + Shift + ").
+
+Execute os comandos abaixo no terminal do VS Code:
+
+Bash
+# Inicializar o Git na pasta (caso ainda não esteja)
+git init
+git branch -M main
+
+# Conectar a sua pasta ao repositório do GitHub
+git remote add origin https://github.com/luisbaumann28122005-jpg/MonitorNetwork.git
+
+# Atualizar a pasta local com o que está no GitHub
+git pull origin main --rebase
+3. Fluxo Diário de Desenvolvimento (VS Code ➔ GitHub ➔ Raspberry)
+Toda vez que você for alterar o código no seu PC, siga estes 3 passos simples:
+
+🟢 Passo A: Editar e Enviar pelo VS Code (no PC)
+Altere o código (main.py, etc.) e salve (Ctrl + S).
+
+No terminal do VS Code, execute:
+
+Bash
+git add .
+git commit -m "Descricao das alteracoes feitas"
+git push origin main
+🟡 Passo B: Atualizar e Reiniciar no Raspberry Pi (via SSH)
+No terminal onde você está conectado ao Raspberry Pi (SSH), rode apenas este comando:
+
+Bash
+./telegram-bot/update.sh
+O que o script faz sozinho:
+
+Baixa as atualizações do GitHub (git pull).
+
+Reinicia o serviço do bot (sudo systemctl restart telegram-bot.service).
+
+Exibe a mensagem de sucesso!
