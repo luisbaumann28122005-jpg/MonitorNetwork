@@ -100,15 +100,20 @@ def monitor():
                     print(f"[{now.strftime('%H:%M:%S')}] 🟢 {name} voltou!")
                     send_telegram_message(msg_up, thread_id=TOPICO_QUEDA_E_VOLTA)
                     dev_state["is_down"] = False
-
+                    
                 # 3. ALERTA DE LATÊNCIA
                 if latency > LATENCY_THRESHOLD_MS and not dev_state["latency_alert_sent"]:
                     msg_lat = (f"⚠️ *REDE LENTA*\n🖥️ `{name}` ({host})\n"
                                f"🐌 *Tempo de resposta:* `{latency}ms`")
                     send_telegram_message(msg_lat, thread_id=TOPICO_LATENCIA)
                     dev_state["latency_alert_sent"] = True
-                elif latency <= LATENCY_THRESHOLD_MS and dev_state["latency_alert_sent"]:
-                    dev_state["latency_alert_sent"] = False # Reseta quando normaliza
+                
+                # AVISA QUANDO A LATÊNCIA VOLTA AO NORMAL
+                elif latency > 0 and latency <= LATENCY_THRESHOLD_MS and dev_state["latency_alert_sent"]:
+                    msg_lat_ok = (f"✅ *REDE NORMALIZADA*\n🖥️ `{name}` ({host})\n"
+                                  f"⚡ *Tempo de resposta:* `{latency}ms`")
+                    send_telegram_message(msg_lat_ok, thread_id=TOPICO_LATENCIA)
+                    dev_state["latency_alert_sent"] = False # Reseta o alarme
 
         time.sleep(CHECK_INTERVAL)
 
