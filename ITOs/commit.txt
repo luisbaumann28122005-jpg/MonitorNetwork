@@ -1,0 +1,37 @@
+================================================================================
+                    GUIA RÁPIDO: PASSO A PASSO GIT & GITHUB
+================================================================================
+
+1. FLUXO PADRÃO (Sempre que fizer alterações no código)
+--------------------------------------------------------------------------------
+Passo 1: Salve todos os arquivos no VS Code (Ctrl + S).
+
+Passo 2: Adicione as alterações para a área de staging
+   > git add .
+
+Passo 3: Crie o commit com uma mensagem explicativa
+   > git commit -m "Descreva aqui as alterações que você fez"
+
+Passo 4: Envie as alterações para o GitHub
+   > git push
+
+
+2. ANTES DE COMEÇAR A CODAR (Boa prática se mexer em vários locais)
+--------------------------------------------------------------------------------
+Para puxar as atualizações da nuvem para o seu PC antes de alterar o código:
+   > git pull
+
+
+3. RESOLUÇÃO DE ERROS COMUNS & VINCULAÇÃO DE BRANCH (main)
+--------------------------------------------------------------------------------
+• Se o 'git push' der erro de branch sem rastreamento ou vínculo correto:
+   > git push -u origin main
+
+• Se renomeou a branch local de 'master' para 'main':
+   > git branch -m master main
+
+• Se o Git disser que 'nothing to commit, working tree clean':
+   - Verifique se salvou o arquivo no editor (Ctrl + S).
+   - Verifique se está na pasta correta do projeto.
+
+================================================================================

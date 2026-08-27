@@ -1,0 +1,42 @@
+================================================================================
+            GUIA RÁPIDO: ATUALIZAR CÓDIGO NO RASPBERRY PI
+================================================================================
+
+1. FLUXO PADRÃO (Sempre que você atualizar o projeto no GitHub)
+--------------------------------------------------------------------------------
+Passo 1: Acesse o Raspberry Pi via SSH / Terminal.
+
+Passo 2: Execute o seu script de atualização (se aplicável):
+   > ./telegram-bot/update.sh -f
+
+OU, se preferir atualizar manualmente via Git:
+   > cd ~/MonitorNetwork
+   > git pull
+
+
+2. SE O 'GIT PULL' DER ERRO DE HISTÓRICO OU DIVERGÊNCIA
+--------------------------------------------------------------------------------
+Caso tenha usado 'git push -f' no PC ou alterado arquivos diretamente no PC, 
+force o Raspberry Pi a ficar 100% igual ao GitHub com o comando:
+
+   > cd ~/MonitorNetwork
+   > git fetch origin
+   > git reset --hard origin/main
+
+
+3. REINICIAR O SERVIÇO / BOT (Se necessário)
+--------------------------------------------------------------------------------
+Após puxar o código novo, lembre-se de reiniciar o serviço se o script não 
+fizer isso automaticamente:
+
+• Se for serviço Systemd:
+   > sudo systemctl restart nome-do-servico
+
+• Se for Docker:
+   > docker compose restart
+
+• Se for execução manual no Python:
+   Pressione Ctrl + C no terminal e execute novamente:
+   > python3 main.py
+
+================================================================================
